@@ -1,4 +1,4 @@
-package top.xeartglydust;
+package top.xearthlydust;
 
 public class Main {
     public static void main(String[] args) {

@@ -1,6 +1,6 @@
-package top.xeartglydust.util.exception;
+package top.xearthlydust.util;
 
-import top.xeartglydust.sign.ExceptionCodeEnum;
+import top.xearthlydust.sign.ExceptionCodeEnum;
 
 public class NodeException extends Exception {
     private final ExceptionCodeEnum exceptionCode;
@@ -10,14 +10,14 @@ public class NodeException extends Exception {
         this.exceptionCode = exceptionCode;
     }
 
-    public ExceptionCodeEnum getExceptionCode() {
-        return this.exceptionCode;
+    public Integer getExceptionCode() {
+        return this.exceptionCode.getCode();
     }
 
     @Override
     public String toString() {
         return "NodeException{" +
-                "exceptionCode=" + exceptionCode +
+                "exceptionCode=" + exceptionCode.getCode() +
                 ", message=" + getMessage() +
                 '}';
     }

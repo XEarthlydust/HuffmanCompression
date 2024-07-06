@@ -1,4 +1,4 @@
-package top.xeartglydust.entity.huffman;
+package top.xearthlydust.entity.huffman;
 
 import lombok.Data;
 
@@ -6,8 +6,8 @@ import lombok.Data;
 public class Node {
     private Node left;
     private Node right;
-    private NodeData data;
-    public Node(NodeData data) {
+    private Byte data;
+    public Node(Byte data) {
         this.data = data;
     }
 }

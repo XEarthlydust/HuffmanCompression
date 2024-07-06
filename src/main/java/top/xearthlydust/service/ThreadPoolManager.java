@@ -1,0 +1,20 @@
+package top.xearthlydust.service;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class ThreadPoolManager {
+
+    private static final ExecutorService threadPool = Executors.newFixedThreadPool(16);
+
+    public static void closeThreadPool() {
+        threadPool.shutdown();
+    }
+
+    public static void runOneTask(Runnable runnable) {
+        threadPool.execute(runnable);
+    }
+
+    private ThreadPoolManager() {}
+
+}

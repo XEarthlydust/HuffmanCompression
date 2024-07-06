@@ -1,18 +1,14 @@
-package top.xeartglydust.entity.huffman;
+package top.xearthlydust.entity.huffman;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import top.xeartglydust.sign.ExceptionCodeEnum;
-import top.xeartglydust.util.exception.NodeException;
+import top.xearthlydust.sign.ExceptionCodeEnum;
+import top.xearthlydust.util.NodeException;
 
-import java.util.HashMap;
 import java.util.Optional;
 
 @Data
-@AllArgsConstructor
 public class Tree {
     private Node root;
-    private HashMap<Integer, Node> nodes;
 
     public void GoLeft() throws NodeException {
         Optional<Node> left = Optional.ofNullable(this.root.getLeft());
@@ -23,4 +19,7 @@ public class Tree {
         this.root.setRight(right.orElseThrow(()->new NodeException(ExceptionCodeEnum.RIGHT_NON_EXISTENT)));
     }
 
+    public Tree(Node root) {
+        this.root = root;
+    }
 }
