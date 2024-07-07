@@ -14,14 +14,19 @@ public class Tree {
 
     public Node GoLeft() throws NodeException {
         Optional<Node> left = Optional.ofNullable(this.root.getLeft());
-        return left.orElseThrow(()->new NodeException(ExceptionCodeEnum.LEFT_NON_EXISTENT));
+        return left.orElseThrow(() -> new NodeException(ExceptionCodeEnum.LEFT_NON_EXISTENT));
     }
+
     public Node GoRight() throws NodeException {
         Optional<Node> right = Optional.ofNullable(this.root.getRight());
-        return right.orElseThrow(()->new NodeException(ExceptionCodeEnum.RIGHT_NON_EXISTENT));
+        return right.orElseThrow(() -> new NodeException(ExceptionCodeEnum.RIGHT_NON_EXISTENT));
     }
 
     public Tree(Node root) {
         this.root = root;
+    }
+
+    public void clearMap() {
+        this.codeTable = null;
     }
 }

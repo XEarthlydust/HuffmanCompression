@@ -19,6 +19,7 @@ public class ThreadPoolManager {
         return threadPool.isTerminated();
     }
 
-    private ThreadPoolManager() {}
+    private ThreadPoolManager() {
+    }
 
 }

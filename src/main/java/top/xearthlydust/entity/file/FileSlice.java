@@ -1,6 +1,5 @@
 package top.xearthlydust.entity.file;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import top.xearthlydust.entity.huffman.Tree;
 

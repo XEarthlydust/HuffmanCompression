@@ -41,7 +41,7 @@ public class HuffmanUtil {
     public static Map<Byte, Byte[]> buildCodeTable(Node rootNode) {
         HashMap<Byte, Byte[]> codeTable = new HashMap<>();
         if (rootNode != null) {
-            buildCodeTableRecursive(rootNode,new Byte[]{0, 0}, codeTable);
+            buildCodeTableRecursive(rootNode, new Byte[]{0, 0}, codeTable);
         }
         return codeTable;
     }
@@ -55,16 +55,17 @@ public class HuffmanUtil {
 
                 Byte[] finalFlag = flag.clone();
 
-                finalFlag[0] ++;
+                finalFlag[0]++;
                 finalFlag[1] = (byte) (finalFlag[1] << (byte) 1);
                 buildCodeTableRecursive(node.getLeft(), finalFlag, codeTable);
             }
             if (node.getRight() != null) {
                 Byte[] finalFlag = flag.clone();
-                finalFlag[0] ++;
+                finalFlag[0]++;
                 finalFlag[1] = (byte) ((finalFlag[1] << (byte) 1) | (byte) 1);
                 buildCodeTableRecursive(node.getRight(), finalFlag, codeTable);
             }
         }
     }
+
 }

@@ -1,32 +1,21 @@
 import org.junit.jupiter.api.Test;
-import top.xearthlydust.entity.file.CompressFile;
-import top.xearthlydust.entity.file.runtime.FileSliceWithTable;
+import top.xearthlydust.entity.file.FileSlice;
 import top.xearthlydust.entity.huffman.runtime.NodeWithFreq;
-import top.xearthlydust.entity.huffman.Tree;
-import top.xearthlydust.service.TreeBuilder;
-import top.xearthlydust.util.HuffmanUtil;
+import top.xearthlydust.service.Compressor;
+import top.xearthlydust.util.FileUtil;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 
 public class TestHuffman {
     @Test
-    public void runHuffman() throws InterruptedException {
-        String filename = "E:\\UserData\\Learn\\JavaLearn\\HuffmanCompression\\src\\test\\resources\\a.jpg";
-        try (FileInputStream fis = new FileInputStream(filename)) {
-            System.out.println("This is one line");
-
-            List<Tree> a = TreeBuilder.buildFileTree(new CompressFile(filename));
-            for (Tree tree : a) {
-                System.out.println(tree.getCodeTable().get((byte) 126)[0].toString() +"|"+ tree.getCodeTable().get((byte) 126)[1].toString());
-                System.out.println(tree.getCodeTable().get((byte) -127)[0].toString() +"|"+ tree.getCodeTable().get((byte) -127)[1].toString());
-                System.out.println(tree.getCodeTable().get((byte) 127)[0].toString() +"|"+ tree.getCodeTable().get((byte) 127)[1].toString());
-            }
-        } catch (IOException e) {
+    public void runHuffman() {
+        String filename = "E:\\UserData\\Learn\\JavaLearn\\HuffmanCompression\\src\\test\\resources\\out2.mp4";
+        String saveName = "E:\\UserData\\Learn\\JavaLearn\\HuffmanCompression\\src\\test\\resources\\tmp.dat";
+        try {
+            List<FileSlice> list = Compressor.oneFileCompress(filename, filename);
+            FileUtil.serializeObject(list, saveName);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 

@@ -9,7 +9,7 @@ public class NodeWithFreq implements Comparable<NodeWithFreq> {
     private final Node node;
     private final Integer freq;
 
-    public NodeWithFreq(Byte data,Integer freq) {
+    public NodeWithFreq(Byte data, Integer freq) {
         this.node = new Node(data);
         this.freq = freq;
     }
