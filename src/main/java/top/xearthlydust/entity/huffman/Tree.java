@@ -4,19 +4,21 @@ import lombok.Data;
 import top.xearthlydust.sign.ExceptionCodeEnum;
 import top.xearthlydust.util.NodeException;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Data
 public class Tree {
     private Node root;
+    private Map<Byte, Byte[]> codeTable;
 
-    public void GoLeft() throws NodeException {
+    public Node GoLeft() throws NodeException {
         Optional<Node> left = Optional.ofNullable(this.root.getLeft());
-        this.root.setLeft(left.orElseThrow(()->new NodeException(ExceptionCodeEnum.LEFT_NON_EXISTENT)));
+        return left.orElseThrow(()->new NodeException(ExceptionCodeEnum.LEFT_NON_EXISTENT));
     }
-    public void GoRight() throws NodeException {
+    public Node GoRight() throws NodeException {
         Optional<Node> right = Optional.ofNullable(this.root.getRight());
-        this.root.setRight(right.orElseThrow(()->new NodeException(ExceptionCodeEnum.RIGHT_NON_EXISTENT)));
+        return right.orElseThrow(()->new NodeException(ExceptionCodeEnum.RIGHT_NON_EXISTENT));
     }
 
     public Tree(Node root) {

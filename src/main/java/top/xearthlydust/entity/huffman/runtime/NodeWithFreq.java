@@ -1,6 +1,7 @@
-package top.xearthlydust.entity.huffman;
+package top.xearthlydust.entity.huffman.runtime;
 
 import lombok.Data;
+import top.xearthlydust.entity.huffman.Node;
 
 @Data
 public class NodeWithFreq implements Comparable<NodeWithFreq> {

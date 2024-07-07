@@ -15,6 +15,8 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 
+    // https://mvnrepository.com/artifact/com.esotericsoftware/kryo
+    implementation("com.esotericsoftware:kryo:5.6.0")
 }
 
 javafx {

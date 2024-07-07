@@ -1,22 +1,18 @@
 package top.xearthlydust.util;
 
-import top.xearthlydust.entity.huffman.NodeWithFreq;
+import top.xearthlydust.entity.huffman.runtime.NodeWithFreq;
 import top.xearthlydust.entity.huffman.Tree;
 import top.xearthlydust.entity.huffman.Node;
 
 import java.util.*;
 
 public class HuffmanUtil {
-    public static PriorityQueue<NodeWithFreq> checkStreamToMap(byte[] bytes, Integer num) throws NodeException {
+    public static PriorityQueue<NodeWithFreq> checkStreamToMap(byte[] bytes, Integer num) {
         HashMap<Byte, Integer> frequencyMap = new HashMap<>();
 
         for (int i = 0; i < num; i++) {
             frequencyMap.merge(bytes[i], 1, Integer::sum);
         }
-        
-//        for (Byte aByte : bytes) {
-//            frequencyMap.merge(aByte, 1, Integer::sum);
-//        }
 
         PriorityQueue<NodeWithFreq> priorityQueue = new PriorityQueue<>();
         frequencyMap.forEach((key, value) -> priorityQueue.offer(new NodeWithFreq(key, value)));
@@ -42,23 +38,32 @@ public class HuffmanUtil {
     }
 
 
-    public static Map<Byte, String> buildCodeTable(Node rootNode) {
-        HashMap<Byte, String> codeTable = new HashMap<>();
+    public static Map<Byte, Byte[]> buildCodeTable(Node rootNode) {
+        HashMap<Byte, Byte[]> codeTable = new HashMap<>();
         if (rootNode != null) {
-            buildCodeTableRecursive(rootNode, "", codeTable);
+            buildCodeTableRecursive(rootNode,new Byte[]{0, 0}, codeTable);
         }
         return codeTable;
     }
 
-    public static void buildCodeTableRecursive(Node node, String code, Map<Byte, String> codeTable) {
+    private static void buildCodeTableRecursive(Node node, Byte[] flag, Map<Byte, Byte[]> codeTable) {
         if (node.getData() != null) {
-            codeTable.put(node.getData(), code);
+            Byte[] finalFlag = flag.clone();
+            codeTable.put(node.getData(), finalFlag);
         } else {
             if (node.getLeft() != null) {
-                buildCodeTableRecursive(node.getLeft(), code + "0", codeTable);
+
+                Byte[] finalFlag = flag.clone();
+
+                finalFlag[0] ++;
+                finalFlag[1] = (byte) (finalFlag[1] << (byte) 1);
+                buildCodeTableRecursive(node.getLeft(), finalFlag, codeTable);
             }
             if (node.getRight() != null) {
-                buildCodeTableRecursive(node.getRight(), code + "1", codeTable);
+                Byte[] finalFlag = flag.clone();
+                finalFlag[0] ++;
+                finalFlag[1] = (byte) ((finalFlag[1] << (byte) 1) | (byte) 1);
+                buildCodeTableRecursive(node.getRight(), finalFlag, codeTable);
             }
         }
     }

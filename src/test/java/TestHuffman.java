@@ -1,10 +1,15 @@
 import org.junit.jupiter.api.Test;
-import top.xearthlydust.entity.huffman.NodeWithFreq;
+import top.xearthlydust.entity.file.CompressFile;
+import top.xearthlydust.entity.file.runtime.FileSliceWithTable;
+import top.xearthlydust.entity.huffman.runtime.NodeWithFreq;
 import top.xearthlydust.entity.huffman.Tree;
 import top.xearthlydust.service.TreeBuilder;
+import top.xearthlydust.util.HuffmanUtil;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -14,9 +19,13 @@ public class TestHuffman {
         String filename = "E:\\UserData\\Learn\\JavaLearn\\HuffmanCompression\\src\\test\\resources\\a.jpg";
         try (FileInputStream fis = new FileInputStream(filename)) {
             System.out.println("This is one line");
-            Map<Tree, Map<Byte, String>> treeMap = TreeBuilder.buildTree(fis);
-            System.out.println(treeMap);
 
+            List<Tree> a = TreeBuilder.buildFileTree(new CompressFile(filename));
+            for (Tree tree : a) {
+                System.out.println(tree.getCodeTable().get((byte) 126)[0].toString() +"|"+ tree.getCodeTable().get((byte) 126)[1].toString());
+                System.out.println(tree.getCodeTable().get((byte) -127)[0].toString() +"|"+ tree.getCodeTable().get((byte) -127)[1].toString());
+                System.out.println(tree.getCodeTable().get((byte) 127)[0].toString() +"|"+ tree.getCodeTable().get((byte) 127)[1].toString());
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

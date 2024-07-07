@@ -15,6 +15,10 @@ public class ThreadPoolManager {
         threadPool.execute(runnable);
     }
 
+    public static boolean isTerminated() {
+        return threadPool.isTerminated();
+    }
+
     private ThreadPoolManager() {}
 
 }
