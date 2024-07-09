@@ -4,17 +4,17 @@ import lombok.Data;
 import top.xearthlydust.entity.huffman.Tree;
 
 @Data
-public class FileSlice implements Comparable<FileSlice> {
+public class FileChunk implements Comparable<FileChunk> {
     private Integer id;
     private Tree tree;
     private byte[] bytes;
 
     @Override
-    public int compareTo(FileSlice o) {
+    public int compareTo(FileChunk o) {
         return this.id - o.id;
     }
 
-    public FileSlice(Integer id, Tree tree) {
+    public FileChunk(Integer id, Tree tree) {
         this.id = id;
         this.tree = tree;
     }

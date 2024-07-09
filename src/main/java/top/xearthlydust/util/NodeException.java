@@ -1,6 +1,6 @@
 package top.xearthlydust.util;
 
-import top.xearthlydust.sign.ExceptionCodeEnum;
+import top.xearthlydust.enums.ExceptionCodeEnum;
 
 public class NodeException extends Exception {
     private final ExceptionCodeEnum exceptionCode;

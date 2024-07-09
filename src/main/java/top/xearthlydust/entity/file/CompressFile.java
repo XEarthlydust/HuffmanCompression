@@ -7,9 +7,12 @@ import java.util.List;
 @Data
 public class CompressFile {
     private String fileName;
-    private List<FileSlice> fileSlices;
+    private Integer fileId;
+    private boolean isFolder;
+    private List<CompressFile> children;
 
-    public CompressFile(String fileName) {
+    public CompressFile(String fileName, boolean isFolder) {
         this.fileName = fileName;
+        this.isFolder = isFolder;
     }
 }

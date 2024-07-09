@@ -1,7 +1,7 @@
 package top.xearthlydust.entity.huffman;
 
 import lombok.Data;
-import top.xearthlydust.sign.ExceptionCodeEnum;
+import top.xearthlydust.enums.ExceptionCodeEnum;
 import top.xearthlydust.util.NodeException;
 
 import java.util.Map;

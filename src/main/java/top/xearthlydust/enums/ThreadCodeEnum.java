@@ -1,4 +1,4 @@
-package top.xearthlydust.sign;
+package top.xearthlydust.enums;
 
 public enum ThreadCodeEnum {
     NORMAL_WORKING(2000, "正常运行"),

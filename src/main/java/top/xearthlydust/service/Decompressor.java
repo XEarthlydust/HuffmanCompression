@@ -1,21 +1,15 @@
 package top.xearthlydust.service;
 
-import top.xearthlydust.entity.file.FileSlice;
-import top.xearthlydust.util.FileUtil;
+import top.xearthlydust.entity.file.FileChunk;
+import top.xearthlydust.util.BitUtil;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 
 public class Decompressor {
 
-    public static void oneFileDecompress(String fileName) {
-        try (FileInputStream fis = new FileInputStream(fileName)) {
-            FileSlice fileSlice = FileUtil.readOneSlice(fis);
-            ThreadPoolManager.runOneTask(() -> {
-            });
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public static void oneSliceDecompressWithSave(FileChunk fileChunk) throws InterruptedException {
+        ThreadPoolManager.runOneTask(() -> {
+            fileChunk.setBytes(BitUtil.getCodeByTree(fileChunk.getTree(), fileChunk.getBytes()));
+        });
 
     }
 }

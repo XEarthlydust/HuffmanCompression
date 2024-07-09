@@ -1,4 +1,4 @@
-package top.xearthlydust.sign;
+package top.xearthlydust.enums;
 
 public enum ExceptionCodeEnum {
     LEFT_NON_EXISTENT(4000, "目标节点左节点不存在"),
