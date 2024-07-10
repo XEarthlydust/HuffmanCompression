@@ -13,12 +13,16 @@ import java.nio.channels.FileChannel;
 
 public class FileUtil {
 
+
+
     // 强制单线程 保障线程安全 按需顺序写入文件 对于无法确定大小的数据如此序列化
     public static void serializeOneObj(Object obj, String filePath) throws IOException {
-        try (Output output = new Output(new FileOutputStream(filePath))) {
-            Kryo kryo = KryoPoolManager.singleUse();
+        Kryo kryo = KryoPoolManager.singleUse();
+        try (FileOutputStream fos = new FileOutputStream(filePath, true);
+             Output output = new Output(fos)) {
             kryo.writeObject(output, obj);
             output.flush();
+        } finally {
             KryoPoolManager.singleFree(kryo);
         }
     }
@@ -38,6 +42,12 @@ public class FileUtil {
 
 
     // 单线程地从序列化的文件流中读取一个对象
+//    public static Object deserializeOneObj(Input input) {
+//        Kryo kryo = KryoPoolManager.singleUse();
+//        Object oneObj = kryo.readClassAndObject(input);
+//        KryoPoolManager.singleFree(kryo);
+//        return oneObj;
+//    }
     public static <T> T deserializeOneObj(Input input, Class<T> clazz) {
         Kryo kryo = KryoPoolManager.singleUse();
         T oneObj = kryo.readObject(input, clazz);
@@ -45,25 +55,4 @@ public class FileUtil {
         return oneObj;
     }
 
-//    // 从文件反序列化一个文件
-//    public static List<FileSlice> deserializeObjects(String filePath) throws IOException {
-//        List<FileSlice> objects = new ArrayList<>();
-//
-//        try (RandomAccessFile raf = new RandomAccessFile(filePath, "r"); FileChannel fileChannel = raf.getChannel()) {
-//            long fileSize = fileChannel.size();
-//            MappedByteBuffer buffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, fileSize);
-//
-//            while (buffer.hasRemaining()) {
-//                // 读取对象大小
-//                int objectSize = buffer.getInt();
-//                byte[] objectBytes = new byte[objectSize];
-//                buffer.get(objectBytes);
-//
-//                Input input = new Input(objectBytes);
-////                FileSlice obj = kryoLocal.get().readObject(input, FileSlice.class);
-////                objects.add(obj);
-//            }
-//        }
-//        return objects;
-//    }
 }
