@@ -20,7 +20,7 @@ public class FileUtil {
         Kryo kryo = KryoPoolManager.singleUse();
         try (FileOutputStream fos = new FileOutputStream(filePath, true);
              Output output = new Output(fos)) {
-            kryo.writeObject(output, obj);
+            kryo.writeClassAndObject(output, obj);
             output.flush();
         } finally {
             KryoPoolManager.singleFree(kryo);
@@ -42,17 +42,17 @@ public class FileUtil {
 
 
     // 单线程地从序列化的文件流中读取一个对象
-//    public static Object deserializeOneObj(Input input) {
-//        Kryo kryo = KryoPoolManager.singleUse();
-//        Object oneObj = kryo.readClassAndObject(input);
-//        KryoPoolManager.singleFree(kryo);
-//        return oneObj;
-//    }
-    public static <T> T deserializeOneObj(Input input, Class<T> clazz) {
+    public static Object deserializeOneObj(Input input) {
         Kryo kryo = KryoPoolManager.singleUse();
-        T oneObj = kryo.readObject(input, clazz);
+        Object oneObj = kryo.readClassAndObject(input);
         KryoPoolManager.singleFree(kryo);
         return oneObj;
     }
+//    public static <T> T deserializeOneObj(Input input, Class<T> clazz) {
+//        Kryo kryo = KryoPoolManager.singleUse();
+//        T oneObj = kryo.readObject(input, clazz);
+//        KryoPoolManager.singleFree(kryo);
+//        return oneObj;
+//    }
 
 }
