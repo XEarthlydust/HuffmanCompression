@@ -4,7 +4,7 @@ plugins {
     id("org.openjfx.javafxplugin") version "0.1.0"
 }
 
-group = "top.xeartglydust"
+group = "top.xearthlydust"
 version = "1.0-SNAPSHOT"
 
 repositories {
