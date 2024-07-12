@@ -6,9 +6,12 @@ import top.xearthlydust.entity.huffman.Node;
 import top.xearthlydust.entity.huffman.Tree;
 import top.xearthlydust.service.Compressor;
 import top.xearthlydust.service.Decompressor;
+import top.xearthlydust.service.ThreadPoolManager;
 import top.xearthlydust.util.FileUtil;
 
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,31 +20,64 @@ import java.util.List;
 public class TestHuffman {
     @Test
     public void runHuffman() {
-        String filePath = "D:\\a.jpg";
-        String savePath = "D:\\tmp.dat";
-        String decodePath =  "D:\\tmp.jpg";
-        String decodePath2 =  "D:\\tmp2.jpg";
+        String filePath = "E:\\UserData\\Info\\Account\\h.txt";
+        String savePath = "E:\\a\\a.hfm";
+        String decodePath =  "E:\\b";
 
-        CompressFile compressFile = new CompressFile("abc", false, 1);
+        try {
+            Compressor.finalCompressWithSave(filePath, savePath);
 
-        try  {
-            Compressor.oneFileCompressWithSave(compressFile, filePath, savePath);
+
+            CompressFile compressFile = null;
             try (FileInputStream fis = new FileInputStream(savePath);
                  Input input = new Input(fis)
             ) {
-                while (input.available() > 0) {
-                    FileChunk fileChunk = (FileChunk) FileUtil.deserializeOneObj(input);
-                    Decompressor.oneSliceDecompressWithSave(fileChunk, decodePath);
-
-                }
+                compressFile = (CompressFile) FileUtil.deserializeOneObj(input);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-        } catch (Exception e) {
+
+            Decompressor.finalDecompressWithSave(compressFile, savePath, decodePath);
+
+
+
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
+
     }
 
     @Test
-    public void runNodeFrequencies() {
+    public void runNodeFrequencies() throws InterruptedException {
+
+        String filePath = "E:\\UserData\\Info\\Account\\h.txt";
+        String savePath = "E:\\a\\a.hfm";
+        String decodePath =  "E:\\b\\h.txt";
+
+        CompressFile compressFile = new CompressFile("h.txt", false, 1);
+        Compressor.oneFileCompressWithSave(compressFile, filePath, savePath);
+
+
+        try (FileInputStream fis = new FileInputStream(savePath);
+             Input input = new Input(fis)
+        ) {
+//            FileUtil.deserializeOneObj(input);
+            while (input.available() > 0) {
+                final FileChunk fileChunk = (FileChunk) FileUtil.deserializeOneObj(input);
+                Decompressor.oneSliceDecompressWithSave(fileChunk, decodePath);
+                // 待测试
+                try {
+                    Thread.sleep(2);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
 
     }
 }

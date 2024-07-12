@@ -10,14 +10,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
-
-        CountDownLatch countDownLatch = new CountDownLatch(1);
-        ThreadPoolManager.runOneTask(() -> {
-            MainView.run(args);
-            countDownLatch.countDown();
-        });
-
-        countDownLatch.await();
+    public static void main(String[] args) {
+        MainView.run(args);
     }
 }

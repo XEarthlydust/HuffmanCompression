@@ -3,9 +3,13 @@ package top.xearthlydust.service;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.util.Pool;
 import org.objenesis.strategy.StdInstantiatorStrategy;
+import top.xearthlydust.entity.file.CompressFile;
 import top.xearthlydust.entity.file.FileChunk;
 import top.xearthlydust.entity.huffman.Node;
 import top.xearthlydust.entity.huffman.Tree;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class KryoPoolManager {
 
@@ -19,6 +23,9 @@ public class KryoPoolManager {
         kryo.register(FileChunk.class);
         kryo.register(Node.class);
         kryo.register(Tree.class);
+        kryo.register(CompressFile.class);
+        kryo.register(ArrayList.class);
+        kryo.register(List.class);
         kryo.register(byte[].class);
         return kryo;
     }

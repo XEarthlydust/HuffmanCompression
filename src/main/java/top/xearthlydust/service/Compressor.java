@@ -5,9 +5,9 @@ import top.xearthlydust.entity.file.FileChunk;
 import top.xearthlydust.util.FileUtil;
 import top.xearthlydust.util.HuffmanUtil;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.file.Path;
 import java.util.Queue;
 import java.util.concurrent.CountDownLatch;
 
@@ -32,5 +32,22 @@ public class Compressor {
             });
         }
         latch.await();
+    }
+
+    public static void finalCompressWithSave(String filePath, String savePath) throws IOException, InterruptedException {
+        Path path = Path.of(filePath);
+        CompressFile compressFile = FileUtil.getDirectoryStructure(path);
+        FileUtil.serializeOneObj(compressFile, savePath);
+        recursionCompress(compressFile, path.getParent().toString(), savePath);
+    }
+
+    private static void recursionCompress(CompressFile compressFile, String filePath, String savePath) throws InterruptedException {
+        if (compressFile.isFolder()) {
+            for (CompressFile compressFileChild : compressFile.getChildren()) {
+                recursionCompress(compressFileChild, filePath + "/" + compressFile.getFileName(), savePath);
+            }
+        } else {
+            oneFileCompressWithSave(compressFile, filePath + "/" + compressFile.getFileName(), savePath);
+        }
     }
 }

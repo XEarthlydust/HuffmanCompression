@@ -18,6 +18,8 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.esotericsoftware/kryo
     implementation("com.esotericsoftware:kryo:5.6.0")
+
+    implementation ("io.github.mkpaz:atlantafx-base:2.0.1")
 }
 
 javafx {

@@ -1,0 +1,9 @@
+/* Main CSS file */
+
+. {
+    -fx-font-family: "SarasaMono SC";
+}
+
+.list-cell .list-view {
+    -fx-font-family: "JetBrainsMonoNL NF";
+}
