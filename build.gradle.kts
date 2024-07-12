@@ -1,5 +1,6 @@
 plugins {
-    id("java")
+    java
+    application
     id("io.freefair.lombok") version "8.6"
     id("org.openjfx.javafxplugin") version "0.1.0"
 }
@@ -20,7 +21,7 @@ dependencies {
 }
 
 javafx {
-    version = "17"
+    version = "22"
     modules("javafx.controls", "javafx.fxml")
 }
 
@@ -32,3 +33,6 @@ tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
 }
 
+application {
+    mainClass = "top.xearthlydust.Main"
+}
