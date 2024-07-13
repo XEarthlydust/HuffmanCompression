@@ -94,7 +94,7 @@ public class HuffmanUtil {
         }
 
         // 处理最后一个字节
-        if (bitPosition > 0) encodedBytesList.add((byte) (currentByte << (8 - bitPosition)));
+        if (bitPosition > 0) encodedBytesList.add(currentByte);
 
         // 转换为字节数组
         byte[] encodedBytes = new byte[encodedBytesList.size()];
