@@ -146,8 +146,9 @@ public class MainController {
                 case "压缩目录" -> ThreadPoolManager.runOneTask(() -> {
                     disableAll();
                     try {
+                        long start = System.currentTimeMillis();
                         Compressor.finalCompressWithSave(textFieldInput.getText(), textFieldOutput.getText());
-                        showAlert(Alert.AlertType.INFORMATION, "压缩成功", "输出: " + textFieldOutput.getText());
+                        showAlert(Alert.AlertType.INFORMATION, "压缩成功", "输出: " + textFieldOutput.getText(), start);
                     } catch (IOException | InterruptedException e) {
                         throw new RuntimeException(e);
                     } finally {
@@ -160,9 +161,10 @@ public class MainController {
                     ThreadPoolManager.runOneTask(() -> {
                         disableAll();
                         try (FileInputStream fis = new FileInputStream(fileInputPath); Input input = new Input(fis)) {
+                            long start = System.currentTimeMillis();
                             CompressFile compressFile = (CompressFile) FileUtil.deserializeOneObj(input);
                             Decompressor.finalDecompressWithSave(compressFile, fileInputPath, fileOutputPath);
-                            showAlert(Alert.AlertType.INFORMATION, "解压成功", "输出: " + fileInputPath);
+                            showAlert(Alert.AlertType.INFORMATION, "解压成功", "输出: " + fileInputPath, start);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         } finally {
@@ -175,9 +177,10 @@ public class MainController {
                     ThreadPoolManager.runOneTask(() -> {
                         disableAll();
                         try {
+                            long start = System.currentTimeMillis();
                             CompressFile compressFile = new CompressFile(tmpFiles);
                             Compressor.oneMultipleFileCompressWithSave(compressFile, tmpFiles.get(0).getAbsoluteFile().getParentFile().getPath(), fileOutputPath);
-                            showAlert(Alert.AlertType.INFORMATION, "解压成功", "输出目录: " + fileOutputPath);
+                            showAlert(Alert.AlertType.INFORMATION, "压缩成功", "输出目录: " + fileOutputPath, start);
                         } catch (InterruptedException | IOException e) {
                             throw new RuntimeException(e);
                         }
@@ -283,13 +286,31 @@ public class MainController {
         }
     }
 
-    private void showAlert(Alert.AlertType type, String title, String content) {
+    private void showAlert(Alert.AlertType type, String title, String content, long start) {
+        content = checkTime(start) + content;
+        String finalContent = content;
         Platform.runLater(() -> {
             Alert alert = new Alert(type);
             alert.setTitle(title);
             alert.setHeaderText(null);
-            alert.setContentText(content);
+            alert.setContentText(finalContent);
             alert.show();
         });
+    }
+
+    private String checkTime(long start) {
+        long now = System.currentTimeMillis();
+        int ms = (int) (now - start) % 1000;
+        int rawSec = (int) ((now - start) / 1000);
+        int sec = (rawSec % 60);
+        int rawMin = (rawSec / 60);
+
+        if (rawMin == 0 && sec == 0) {
+            return "耗时：0 . " + ms + "秒   ";
+        } else if (rawMin == 0) {
+            return "耗时："+ sec + " . " + ms + "秒   ";
+        } else {
+            return "耗时："+ rawMin + "分" + sec + " . " + ms + "秒   ";
+        }
     }
 }
