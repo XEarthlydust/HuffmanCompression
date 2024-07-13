@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/22" stylesheets="/css/main.css"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="top.xearthlydust.controller.MainController">
+    <MenuBar VBox.vgrow="NEVER">
+        <Menu mnemonicParsing="false" text="模式">
+            <MenuItem fx:id="menuItemUnzip" mnemonicParsing="false" text="解压"/>
+            <MenuItem fx:id="menuItemZip" mnemonicParsing="false" text="压缩文件"/>
+            <MenuItem fx:id="menuFolderZip" mnemonicParsing="false" text="压缩目录"/>
+            <MenuItem fx:id="menuItemClose" mnemonicParsing="false" text="关闭程序"/>
+            <MenuItem fx:id="menuCheckStruct" mnemonicParsing="false" text="结构查看*"/>
+        </Menu>
+        <Menu mnemonicParsing="false" text="选项">
+            <MenuItem fx:id="menuChangeThreads" mnemonicParsing="false" text="线程数"/>
+            <MenuItem fx:id="menuForceStop" mnemonicParsing="false" text="强行重启"/>
+            <MenuItem mnemonicParsing="false" text="日志相关*"  />
+        </Menu>
+        <Menu mnemonicParsing="false" text="关于">
+            <MenuItem fx:id="menuItemGitHub" mnemonicParsing="false" text="Source"/>
+            <MenuItem fx:id="menuItemMyself" mnemonicParsing="false" text="Me"/>
+        </Menu>
+    </MenuBar>
+    <HBox prefHeight="0.0" prefWidth="640.0">
+        <Pane prefHeight="255.0" prefWidth="390.0"/>
+        <FlowPane prefHeight="438.0" prefWidth="462.0">
+            <Pane prefHeight="29.0" prefWidth="462.0"/>
+            <Pane prefHeight="23.0" prefWidth="100.0"/>
+            <Pane prefHeight="23.0" prefWidth="260.0">
+                <Label fx:id="labelInfo" prefHeight="98.0" prefWidth="260.0" text="请选择模式" textAlignment="CENTER"
+                       wrapText="true"/>
+            </Pane>
+            <Pane prefHeight="23.0" prefWidth="100.0"/>
+            <Pane prefHeight="200.0" prefWidth="45.0"/>
+            <VBox prefHeight="200.0" prefWidth="369.0">
+                <Pane prefHeight="315.0" prefWidth="370.0"/>
+                <HBox prefHeight="32.0" prefWidth="370.0">
+                    <Label prefHeight="103.0" prefWidth="65.0" text="输入："/>
+                    <Pane prefHeight="23.0" prefWidth="36.0"/>
+                    <TextField fx:id="textFieldInput" prefHeight="64.0" prefWidth="225.0"/>
+                    <Pane prefHeight="23.0" prefWidth="46.0"/>
+                    <Button fx:id="btnSelectInput" mnemonicParsing="false" prefHeight="23.0"
+                            prefWidth="66.0" text="选择"/>
+                </HBox>
+                <Pane prefHeight="258.0" prefWidth="370.0"/>
+                <HBox prefHeight="32.0" prefWidth="370.0">
+                    <Label prefHeight="103.0" prefWidth="65.0" text="输出：" wrapText="true"/>
+                    <Pane prefHeight="23.0" prefWidth="36.0"/>
+                    <TextField fx:id="textFieldOutput" prefHeight="23.0" prefWidth="225.0"/>
+                    <Pane prefHeight="23.0" prefWidth="45.0"/>
+                    <Button fx:id="btnSelectOutput" mnemonicParsing="false" prefHeight="23.0"
+                            prefWidth="65.0" text="选择"/>
+                </HBox>
+                <Pane prefHeight="264.0" prefWidth="370.0"/>
+            </VBox>
+            <Pane prefHeight="200.0" prefWidth="45.0"/>
+        </FlowPane>
+        <Pane prefHeight="253.0" prefWidth="389.0"/>
+    </HBox>
+    <HBox prefHeight="487.0" prefWidth="640.0">
+        <Pane prefHeight="97.0" prefWidth="641.0"/>
+        <FlowPane prefHeight="368.0" prefWidth="378.0">
+            <Pane prefHeight="22.0" prefWidth="378.0"/>
+            <Pane prefHeight="34.0" prefWidth="155.0"/>
+            <Button fx:id="btnExecute" mnemonicParsing="false" prefHeight="28.0" prefWidth="75.0" text="执行"/>
+            <Pane prefHeight="34.0" prefWidth="147.0"/>
+            <Pane prefHeight="34.0" prefWidth="377.0"/>
+        </FlowPane>
+        <Pane prefHeight="97.0" prefWidth="650.0"/>
+    </HBox>
+</VBox>

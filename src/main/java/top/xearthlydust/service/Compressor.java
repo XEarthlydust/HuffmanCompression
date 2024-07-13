@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Queue;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Compressor {
     public static void oneFileCompressWithSave(CompressFile compressFile, String filePath, String savePath) throws InterruptedException {
@@ -36,7 +37,8 @@ public class Compressor {
 
     public static void finalCompressWithSave(String filePath, String savePath) throws IOException, InterruptedException {
         Path path = Path.of(filePath);
-        CompressFile compressFile = FileUtil.getDirectoryStructure(path);
+        AtomicInteger count = new AtomicInteger(0);
+        CompressFile compressFile = FileUtil.getDirectoryStructure(path, count);
         FileUtil.serializeOneObj(compressFile, savePath);
         recursionCompress(compressFile, path.getParent().toString(), savePath);
     }
@@ -48,6 +50,16 @@ public class Compressor {
             }
         } else {
             oneFileCompressWithSave(compressFile, filePath + "/" + compressFile.getFileName(), savePath);
+        }
+    }
+
+    // 仅限于一个目录 适用于文件多选
+    public static void oneMultipleFileCompressWithSave(CompressFile compressFile, String filePath, String savePath) throws InterruptedException, IOException {
+        FileUtil.serializeOneObj(compressFile, savePath);
+        for (CompressFile compressFileChild : compressFile.getChildren()) {
+            if (!compressFileChild.isFolder()) {
+                oneFileCompressWithSave(compressFileChild, filePath + "/" + compressFileChild.getFileName(), savePath);
+            }
         }
     }
 }

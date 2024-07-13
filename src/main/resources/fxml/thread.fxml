@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="180.0" prefWidth="320.0" stylesheets="/css/thread.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22" fx:controller="top.xearthlydust.controller.DialogController">
+    <Slider fx:id="slider" layoutX="30.0" layoutY="52.0" majorTickUnit="16" max="128" min="4" minorTickCount="8" prefWidth="260" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="16" />
+    <Button layoutX="139.0" layoutY="135.0" onAction="#handleCancel" text="确定" />
+    <Label fx:id="sliderValueLabel" layoutX="1.0" layoutY="99.0" prefHeight="23.0" prefWidth="317.0" />
+</AnchorPane>

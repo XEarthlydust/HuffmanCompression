@@ -1,9 +1,7 @@
 /* Main CSS file */
 
-. {
-    -fx-font-family: "SarasaMono SC";
-}
-
-.list-cell .list-view {
-    -fx-font-family: "JetBrainsMonoNL NF";
+.label {
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+    /*-fx-pref-height: 80;*/
 }

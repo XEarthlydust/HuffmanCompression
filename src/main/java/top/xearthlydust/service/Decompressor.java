@@ -63,4 +63,6 @@ public class Decompressor {
             fileMap.put(compressFile.getFileId(), nowFolderPath + "/" + compressFile.getFileName());
         }
     }
+
+    private Decompressor() {}
 }

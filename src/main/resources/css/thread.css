@@ -1,0 +1,21 @@
+.dialog-pane {
+    -fx-background-color: white; /* 设置背景颜色为白色 */
+    -fx-padding: 20; /* 设置内边距 */
+    -fx-spacing: 10; /* 设置组件之间的间距 */
+}
+
+.slider {
+    -fx-alignment: center; /* 居中对齐 */
+}
+
+.button {
+    -fx-alignment: center; /* 居中对齐 */
+}
+
+.label {
+    -fx-alignment: center; /* 居中对齐 */
+}
+
+.dialog-pane .label {
+    -fx-font-size: 14px; /* 设置标签字体大小 */
+}

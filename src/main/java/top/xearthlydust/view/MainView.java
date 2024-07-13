@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import top.xearthlydust.controller.MainController;
@@ -27,11 +28,13 @@ public class MainView extends Application {
             Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet());
             Font.loadFont(getClass().getResourceAsStream("/font/SarasaMonoSC-Regular.ttf"), 14);
             Font.loadFont(getClass().getResourceAsStream("/font/JetBrainsMonoNLNerdFont-Regular.ttf"), 14);
-            final URL url = getClass().getResource("/main.fxml");
+            final URL url = getClass().getResource("/fxml/main.fxml");
             final Parent root = FXMLLoader.load(Objects.requireNonNull(url));
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setResizable(false);
             stage.setTitle("Huffman Compression");
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/image/icon.png")));
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
