@@ -5,7 +5,6 @@ import top.xearthlydust.entity.file.FileChunk;
 import top.xearthlydust.util.FileUtil;
 import top.xearthlydust.util.HuffmanUtil;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Queue;

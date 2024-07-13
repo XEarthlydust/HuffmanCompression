@@ -6,14 +6,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import top.xearthlydust.controller.MainController;
-import top.xearthlydust.entity.file.CompressFile;
+import top.xearthlydust.service.ThreadPoolManager;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class MainView extends Application {
@@ -26,18 +22,19 @@ public class MainView extends Application {
     public void start(Stage stage) {
         try {
             Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet());
-            Font.loadFont(getClass().getResourceAsStream("/font/SarasaMonoSC-Regular.ttf"), 14);
-            Font.loadFont(getClass().getResourceAsStream("/font/JetBrainsMonoNLNerdFont-Regular.ttf"), 14);
             final URL url = getClass().getResource("/fxml/main.fxml");
             final Parent root = FXMLLoader.load(Objects.requireNonNull(url));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setResizable(false);
             stage.setTitle("Huffman Compression");
-            stage.getIcons().add(new Image(getClass().getResourceAsStream("/image/icon.png")));
+            stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/image/icon.png"))));
+            stage.setOnCloseRequest(event -> {
+                ThreadPoolManager.closeThreadPool();
+                System.exit(0);
+            });
             stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
     }
 }

@@ -33,7 +33,6 @@ public class Decompressor {
             FileUtil.deserializeOneObj(input);
             while (input.available() > 0) {
                 final FileChunk fileChunk = (FileChunk) FileUtil.deserializeOneObj(input);
-                // 待测试
                 ThreadPoolManager.runOneTask(()->{
                     if (fileMap.containsKey(fileChunk.getFileId())) {
                         synchronized (savePath + "/" + fileMap.get(fileChunk.getFileId())) {
@@ -42,11 +41,6 @@ public class Decompressor {
                         }
                     }
                 });
-                try {
-                    Thread.sleep(2);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -78,8 +78,6 @@ public class MainController {
         btnSelectOutput.setDisable(true);
         labelInfo.setFont(Font.font(20));
 
-
-
         // 监听模式菜单项选择事件
         menuItemUnzip.setOnAction(event -> {
             selectedMode = "解压";
@@ -107,7 +105,9 @@ public class MainController {
         menuItemClose.setOnAction(event -> {
             btnExecute.setDisable(true);
             selectedMode = "";
+            ThreadPoolManager.closeThreadPool();
             Platform.exit();
+            System.exit(0);
         });
 
         // 监听 “选项” 菜单时间
@@ -142,49 +142,48 @@ public class MainController {
 
         // 捕获执行按钮的点击事件
         btnExecute.setOnAction(event -> {
-            if (selectedMode.isEmpty()) {
-                return;
-            } else if (selectedMode.equals("压缩目录")) {
-                ThreadPoolManager.runOneTask(() -> {
+            switch (selectedMode) {
+                case "压缩目录" -> ThreadPoolManager.runOneTask(() -> {
                     disableAll();
                     try {
                         Compressor.finalCompressWithSave(textFieldInput.getText(), textFieldOutput.getText());
-                        showAlert(Alert.AlertType.INFORMATION, "压缩成功", "输出: "+textFieldOutput.getText());
+                        showAlert(Alert.AlertType.INFORMATION, "压缩成功", "输出: " + textFieldOutput.getText());
                     } catch (IOException | InterruptedException e) {
                         throw new RuntimeException(e);
                     } finally {
                         enableAll();
                     }
                 });
-            } else if (selectedMode.equals("解压")) {
-                final String fileInputPath = textFieldInput.getText();
-                final String fileOutputPath = textFieldOutput.getText();
-                ThreadPoolManager.runOneTask(() -> {
-                    disableAll();
-                    try (FileInputStream fis = new FileInputStream(fileInputPath);
-                         Input input = new Input(fis)) {
-                        CompressFile compressFile = (CompressFile) FileUtil.deserializeOneObj(input);
-                        Decompressor.finalDecompressWithSave(compressFile, fileInputPath, fileOutputPath);
-                        showAlert(Alert.AlertType.INFORMATION, "解压成功", "输出: " + fileInputPath);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    } finally {
+                case "解压" -> {
+                    final String fileInputPath = textFieldInput.getText();
+                    final String fileOutputPath = textFieldOutput.getText();
+                    ThreadPoolManager.runOneTask(() -> {
+                        disableAll();
+                        try (FileInputStream fis = new FileInputStream(fileInputPath); Input input = new Input(fis)) {
+                            CompressFile compressFile = (CompressFile) FileUtil.deserializeOneObj(input);
+                            Decompressor.finalDecompressWithSave(compressFile, fileInputPath, fileOutputPath);
+                            showAlert(Alert.AlertType.INFORMATION, "解压成功", "输出: " + fileInputPath);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        } finally {
+                            enableAll();
+                        }
+                    });
+                }
+                case "压缩文件" -> {
+                    final String fileOutputPath = textFieldOutput.getText();
+                    ThreadPoolManager.runOneTask(() -> {
+                        disableAll();
+                        try {
+                            CompressFile compressFile = new CompressFile(tmpFiles);
+                            Compressor.oneMultipleFileCompressWithSave(compressFile, tmpFiles.get(0).getAbsoluteFile().getParentFile().getPath(), fileOutputPath);
+                            showAlert(Alert.AlertType.INFORMATION, "解压成功", "输出目录: " + fileOutputPath);
+                        } catch (InterruptedException | IOException e) {
+                            throw new RuntimeException(e);
+                        }
                         enableAll();
-                    }
-                });
-            } else if (selectedMode.equals("压缩文件")) {
-                final String fileOutputPath = textFieldOutput.getText();
-                ThreadPoolManager.runOneTask(() -> {
-                    disableAll();
-                    try {
-                        CompressFile compressFile = new CompressFile(tmpFiles);
-                        Compressor.oneMultipleFileCompressWithSave(compressFile, tmpFiles.get(0).getAbsoluteFile().getParentFile().getPath(), fileOutputPath);
-                        showAlert(Alert.AlertType.INFORMATION, "解压成功", "输出目录: " + fileOutputPath);
-                    } catch (InterruptedException | IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    enableAll();
-                });
+                    });
+                }
             }
         });
     }
@@ -221,9 +220,7 @@ public class MainController {
     private void saveAsHFM(TextField textField) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("保存到...");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("哈夫曼压缩包", "*.hfm")
-        );
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("哈夫曼压缩包", "*.hfm"));
         Stage stage = (Stage) textField.getScene().getWindow();
         File selectedFile = fileChooser.showSaveDialog(stage);
         if (selectedFile != null && selectedFile.exists() && selectedFile.delete()) {
@@ -236,9 +233,7 @@ public class MainController {
     private void selectAsHFM(TextField textField) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("选择一个HFM文件");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("哈夫曼压缩包", "*.hfm")
-        );
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("哈夫曼压缩包", "*.hfm"));
         Stage stage = (Stage) textField.getScene().getWindow();
         File selectedFolder = fileChooser.showOpenDialog(stage);
         if (selectedFolder != null) {
@@ -294,7 +289,7 @@ public class MainController {
             alert.setTitle(title);
             alert.setHeaderText(null);
             alert.setContentText(content);
-            alert.showAndWait();
+            alert.show();
         });
     }
 }

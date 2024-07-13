@@ -31,7 +31,7 @@ public class KryoPoolManager {
     }
 
     // 可以同时拿多个线程安全的kryo实例
-    private static final Pool<Kryo> kryoPool = new Pool<Kryo>(true, false, MAX_POOL_SIZE) {
+    private static final Pool<Kryo> kryoPool = new Pool<>(true, false, MAX_POOL_SIZE) {
         @Override
         protected Kryo create() {
             return registerKryo(new Kryo());
@@ -49,7 +49,7 @@ public class KryoPoolManager {
     }
 
     // 用于有顺序相关、线程同步的kryo实例
-    private static final Pool<Kryo> singleKryo = new Pool<Kryo>(true, false, 1) {
+    private static final Pool<Kryo> singleKryo = new Pool<>(true, false, 1) {
         @Override
         protected Kryo create() {
             return registerKryo(new Kryo());
