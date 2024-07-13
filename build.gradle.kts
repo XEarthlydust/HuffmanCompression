@@ -3,6 +3,7 @@ plugins {
     application
     id("io.freefair.lombok") version "8.6"
     id("org.openjfx.javafxplugin") version "0.1.0"
+    id("com.github.johnrengelman.shadow") version "7.0.0"
 }
 
 group = "top.xearthlydust"
